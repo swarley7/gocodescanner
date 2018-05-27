@@ -9,37 +9,37 @@ func SetupChecks() (chk []Check) {
 	var CommandInject = Check{}
 	// todo these should be read from a file maybe with a JSON interface defining a "Check"
 	SQLiCheck.Init(
-		"(SELECT|DELETE|FROM|INSERT|WHERE|LIKE|UPDATE|ORDER\\sBY).*(^\\n)\\$_(GET|REQUEST|POST)\\[(['|\"]?\\w+['|\"]?)\\].*$",
+		"(SELECT|DELETE|FROM|INSERT|WHERE|LIKE|UPDATE|ORDER\\sBY).*\\$_(GET|REQUEST|POST|COOKIE).*",
 		"SQL injection is lame eh",
 		"SQL Injection",
 		0.9,
 	)
 	FileIncludeCheck.Init(
-		"(require|include)(_once)?\\s?(\\()?\\s?\\$_(GET|REQUEST|POST)\\[(['|\"]?\\w+['|\"]?)\\].*$",
+		"(require|include)(_once)?\\s?(\\()?\\s?\\$_(GET|REQUEST|POST|COOKIE).*",
 		"File inclusion is v bad",
 		"Remote/Local file inclusion",
 		1.0,
 	)
 	SSRFCheck.Init(
-		"curl_exec\\s?\\(\\s?\\.*\\$_(GET|REQUEST|POST)\\[(['|\"]?\\w+['|\"]?)\\].*\\).*$",
+		"curl_exec\\s?\\(.*\\$_(GET|REQUEST|POST|COOKIE).*",
 		"SSRF is v bad",
 		"SSRF",
 		0.3,
 	)
 	UnsafeSerialization.Init(
-		"(de|un)?serialize\\s?\\(\\s?\\$_(GET|REQUEST|POST)\\[(['|\"]?\\w+['|\"]?)\\].*$",
+		"(de|un)?serialize\\s?\\(\\s?\\$_(GET|REQUEST|POST|COOKIE).*",
 		"Serialisation can be v bad",
 		"Unsafe serialisation",
 		0.8,
 	)
 	CommandInject.Init(
-		"shell_]?(^curl_)(exec|eval)\\s?\\(\\s?\\w?\\$_(GET|REQUEST|POST)\\[(['|\"]?\\w+['|\"]?)\\].*$",
+		"shell_]?(^curl_)(exec|eval)\\s?\\(\\s?\\w?\\$_(GET|REQUEST|POST|COOKIE).*",
 		"Command injection is v bad",
 		"Command/shell injection",
 		1.0,
 	)
 	FileDisclosure.Init(
-		"fopen\\s?\\(\\$_(GET|REQUEST|POST)\\[(['|\"]?\\w+['|\"]?)\\].*$",
+		"fopen\\s?\\(\\$_(GET|REQUEST|POST|COOKIE).*",
 		"File disclosure is v bad",
 		"Arbitrary file disclosure",
 		0.6,

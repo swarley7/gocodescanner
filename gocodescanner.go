@@ -9,10 +9,11 @@ import (
 	"strings"
 	"sync"
 
-	"./libgocodescanner"
+	"github.com/swarley7/gocodescanner/libgocodescanner"
 )
 
 func main() {
+	libgocodescanner.PrintBanner()
 	cwd, _ := os.Getwd()
 	var searchDir, extensions, outputDirectory, reportFilename string
 	libgocodescanner.InitLogger(os.Stdout, os.Stdout, os.Stdout, os.Stdout, os.Stderr)

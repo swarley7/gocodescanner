@@ -46,6 +46,6 @@ func SetupChecks() (chk []Check) {
 		0.6,
 	)
 
-	chk = append(chk, SQLiCheck, FileIncludeCheck, SSRFCheck, UnsafeSerialization, CommandInject, CommandInject2, FileDisclosure)
+	chk = append(chk, SQLiCheck, FileIncludeCheck, SSRFCheck, UnsafeSerialization, CommandInject, FileDisclosure)
 	return
 }

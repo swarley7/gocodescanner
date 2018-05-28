@@ -4,6 +4,9 @@ func SetupChecks() (chk []Check) {
 	var SQLiCheck = Check{}
 	var FileIncludeCheck = Check{}
 	var SSRFCheck = Check{}
+	var SSRFCheck2 = Check{}
+	var SSRFCheck3 = Check{}
+
 	var UnsafeSerialization = Check{}
 	var FileDisclosure = Check{}
 	var CommandInject = Check{}
@@ -27,6 +30,18 @@ func SetupChecks() (chk []Check) {
 		"SSRF",
 		0.3,
 	)
+	SSRFCheck2.Init(
+		"curl_setopt\\(.*CURLOPT_URL\\s?,\\s?\\$_(GET|REQUEST|POST|COOKIE).*",
+		"SSRF is v bad",
+		"SSRF",
+		0.3,
+	)
+	SSRFCheck3.Init(
+		"curl_init\\(.*\\$_(GET|REQUEST|POST|COOKIE).*",
+		"SSRF is v bad",
+		"SSRF",
+		0.3,
+	)
 	UnsafeSerialization.Init(
 		"(de|un)?serialize\\s?\\(\\s?\\$_(GET|REQUEST|POST|COOKIE).*",
 		"Serialisation can be v bad",
@@ -46,6 +61,6 @@ func SetupChecks() (chk []Check) {
 		0.6,
 	)
 
-	chk = append(chk, SQLiCheck, FileIncludeCheck, SSRFCheck, UnsafeSerialization, CommandInject, FileDisclosure)
+	chk = append(chk, SQLiCheck, FileIncludeCheck, SSRFCheck, SSRFCheck2, SSRFCheck3, UnsafeSerialization, CommandInject, FileDisclosure)
 	return
 }

@@ -7,6 +7,7 @@ func SetupChecks() (chk []Check) {
 	var UnsafeSerialization = Check{}
 	var FileDisclosure = Check{}
 	var CommandInject = Check{}
+
 	// todo these should be read from a file maybe with a JSON interface defining a "Check"
 	SQLiCheck.Init(
 		"(SELECT|DELETE|FROM|INSERT|WHERE|LIKE|UPDATE|ORDER\\sBY).*\\$_(GET|REQUEST|POST|COOKIE).*",
@@ -33,7 +34,7 @@ func SetupChecks() (chk []Check) {
 		0.8,
 	)
 	CommandInject.Init(
-		"shell_]?(^curl_)(exec|eval)\\s?\\(\\s?\\w?\\$_(GET|REQUEST|POST|COOKIE).*",
+		"(^curl_)(assert|passthru|popen|proc_close|proc_open|proc_get_status|proc_nice|exec|eval|proc_terminate|shell_exec|system)\\s?\\(\\s?\\w?\\$_(GET|REQUEST|POST|COOKIE).*",
 		"Command injection is v bad",
 		"Command/shell injection",
 		1.0,
@@ -45,6 +46,6 @@ func SetupChecks() (chk []Check) {
 		0.6,
 	)
 
-	chk = append(chk, SQLiCheck, FileIncludeCheck, SSRFCheck, UnsafeSerialization, CommandInject, FileDisclosure)
+	chk = append(chk, SQLiCheck, FileIncludeCheck, SSRFCheck, UnsafeSerialization, CommandInject, CommandInject2, FileDisclosure)
 	return
 }
